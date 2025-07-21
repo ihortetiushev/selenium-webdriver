@@ -17,13 +17,14 @@ import java.time.Duration;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestScenario2 {
-    public static String stringExpectedTitle;
-    public static String stringActualTitle;
+
     static WebDriver driver;
 
+    public static String stringExpectedTitle;
+    public static String stringActualTitle;
+
     @AfterAll
-    public static void closeDriver() throws InterruptedException {
-        Thread.sleep(5000);
+    public static void closeDriver() {
         driver.quit();
     }
 
@@ -49,7 +50,7 @@ public class TestScenario2 {
     }
 
     @Test
-    void scenario2() throws InterruptedException {
+    void scenario2() {
         MainPage mainPage = new MainPage(driver);
         SortedByPhoneNamePage sortedByNamePage = new SortedByPhoneNamePage(driver);
         CartPage cartPage = new CartPage(driver);
@@ -77,14 +78,14 @@ public class TestScenario2 {
 
         sortedByNamePage.buyButton.click();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(SortedByPhoneNamePage.GO_TO_CART)));
+        wait.until(ExpectedConditions.visibilityOf(sortedByNamePage.goToCart));
         sortedByNamePage.goToCart.click();
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(sortedByNamePage.actualTitlePhoneXpath)));
         defineActualElement(sortedByNamePage.actualTitlePhoneXpath);
 
-        assertEquals(TestScenario2.stringExpectedTitle, TestScenario2.stringActualTitle, "Expected element: " + TestScenario2.stringExpectedTitle
-                + " Actual element: " + TestScenario2.stringActualTitle);
+        assertEquals(TestScenario2.stringExpectedTitle, TestScenario2.stringActualTitle,
+                "Expected element: " + TestScenario2.stringExpectedTitle + " Actual element: " + TestScenario2.stringActualTitle);
 
         cartPage.closeButton.click();
         sortedByNamePage.searchBar.click();
@@ -92,15 +93,16 @@ public class TestScenario2 {
         sortedByNamePage.searchBar.sendKeys("Зарядний пристрій pixel 30W");
         sortedByNamePage.searchBar.sendKeys(Keys.ENTER);
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(SortedByPhoneNamePage.SORT_SPACE2_XPATH)));
-        actions.moveToElement(sortedByNamePage.sortSpace2).perform();
+        wait.until(ExpectedConditions.visibilityOf(sortedByNamePage.sortSpace));
+        actions.moveToElement(sortedByNamePage.sortSpace).perform();
         sortedByNamePage.sortByCheap.click();
 
         System.out.println();
 
-        Thread.sleep(6000);
+        wait.until(ExpectedConditions.visibilityOf(sortedByNamePage.cheapestCharger));
         defineExpectedElement(SortedByPhoneNamePage.EXPECTED_TITLE_CHEAPEST_CHARGER_XPATH);
 
+        wait.until(ExpectedConditions.urlToBe(sortedByNamePage.sortedByChargerPhonePageUrl));
         sortedByNamePage.cheapestCharger.click();
 
         wait.until(ExpectedConditions.urlToBe(sortedByNamePage.expectedChargerUrl));

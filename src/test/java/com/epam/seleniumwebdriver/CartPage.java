@@ -7,10 +7,13 @@ import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 
 public class CartPage extends PageFactory {
+
     private final WebDriver driver;
+
+    public static String actualElementXpath = "//div[@class='title']/a[@target]";
     @FindBy(how = How.XPATH, using = "//*[name()='svg'][contains(@class, 'vi') and contains(@class, 'plus')]")
     public WebElement addQuantity;
-    @FindBy(how = How.XPATH, using = "/html/body/div[4]/div/div/div[1]")
+    @FindBy(how = How.XPATH, using = "//*[@class='v-modal__close-btn']")
     public WebElement closeButton;
 
     public CartPage(WebDriver driver) {

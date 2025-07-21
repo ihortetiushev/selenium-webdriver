@@ -16,13 +16,14 @@ import java.time.Duration;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestScenario3 {
-    public static String stringExpectedMessage = "Нажаль, нічого не знайдено.";
-    public static String stringActualMessage;
+
     static WebDriver driver;
 
+    public static String stringExpectedMessage = "Нажаль, нічого не знайдено.";
+    public static String stringActualMessage;
+
     @AfterAll
-    public static void closeDriver() throws InterruptedException {
-        Thread.sleep(5000);
+    public static void closeDriver() {
         driver.quit();
     }
 
@@ -45,7 +46,7 @@ public class TestScenario3 {
         MainPage mainPage = new MainPage(driver);
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(7));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MainPage.LOCATION_BUTTON_XPATH)));
+        wait.until(ExpectedConditions.visibilityOf(mainPage.locationButton));
 
         mainPage.typeInputLocation("Одеса");
         mainPage.searchBar.click();

@@ -7,36 +7,37 @@ import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 
 public class SortedByPhoneNamePage extends PageFactory {
-    public static final String GO_TO_CART = "/html/body/div[4]/div/div/div[3]/div/div/div/div[2]/button[2]";
-    static final String SORT_SPACE_XPATH = "//*[@id='__layout']/div/div[1]/div[2]/div/div[2]/div[1]/div[1]/div[1]/div";
-    static final String SORT_SPACE2_XPATH = "//*[@id=\"__layout\"]/div/div[1]/div[2]/div/div[2]/div[1]/div/div[1]/div/span";
-    static final String EXPECTED_TITLE_CHEAPEST_CHARGER_XPATH = "//*[@id=\"__layout\"]/div/div[1]/div[2]/div/div[2]/div[2]/div[1]/div/div[3]/a";
+
     private final WebDriver driver;
-    @FindBy(how = How.XPATH, using = SORT_SPACE_XPATH)
+
+    static final String EXPECTED_TITLE_CHEAPEST_CHARGER_XPATH = "//*[contains(@class, 'product-card__content')]//*[@title='Зарядний пристрій Google Pixel Charger 30W']";
+    @FindBy(how = How.XPATH, using = "//*[@class='sort-by__select']")
     public WebElement sortSpace;
-    @FindBy(how = How.XPATH, using = SORT_SPACE2_XPATH)
-    public WebElement sortSpace2;
-    @FindBy(how = How.XPATH, using = "//*[@id=\"__layout\"]/div/div[1]/div[2]/div/div[2]/div[1]/div[1]/div[1]/div/ul/li[2]")
+    @FindBy(how = How.XPATH, using = "//*[@class='sort-by__list']//li[text()='від дорогих до дешевих']")
     public WebElement sortByExpensive;
-    @FindBy(how = How.XPATH, using = "//*[@id=\"__layout\"]/div/div[1]/div[2]/div/div[2]/div[1]/div/div[1]/div/ul/li[1]")
+    @FindBy(how = How.XPATH, using = "//*[@class='sort-by__list']//li[text()='від дешевих до дорогих']")
     public WebElement sortByCheap;
-    @FindBy(how = How.XPATH, using = "//*[@id=\"__layout\"]/div/div[1]/div[2]/div/div[2]/div[3]/div[1]/div")
+    @FindBy(how = How.XPATH, using = "//*[@class='products-layout__container products-layout--grid']/div[1]")
     public WebElement mostExpensiveItem;
     @FindBy(how = How.ID, using = "product-buy-button")
     public WebElement buyButton;
-    @FindBy(how = How.XPATH, using = GO_TO_CART)
+    @FindBy(how = How.XPATH, using = "//*[@class='related-products__button a-button a-button--outline a-button--primary']")
     public WebElement goToCart;
     @FindBy(how = How.ID, using = "search-form__input")
     public WebElement searchBar;
     @FindBy(how = How.XPATH, using = EXPECTED_TITLE_CHEAPEST_CHARGER_XPATH)
     public WebElement cheapestCharger;
     String sortedByPhoneNamePageUrl = "https://allo.ua/ua/catalogsearch/result/index/cat-48/?q=pixel%209%20pro";
+    String sortedByChargerPhonePageUrl = "https://allo.ua/ua/catalogsearch/result/index/dir-asc/order-price" +
+            "/?q=%D0%97%D0%B0%D1%80%D1%8F%D0%B4%D0%BD%D0%B8%D0%B9%20%D0%BF%D1%80%D0%B8%D1%81%D1%82%D1%80%D1%96%D0%B9%20pixel%2030W";
     String sortedByMostExpensiveToCheapestPageUrl = "https://allo.ua/ua/catalogsearch/result/index/cat-48/dir-desc/order-price/?q=pixel%209%20pro";
-    String mostExpensiveItemPage = "https://allo.ua/ua/products/mobile/smartfon-google-pixel-9-pro-fold-16-512gb-obsidian-eu-usa-global-version" +
-            "-ga05799-us-51638.html";
-    String expectedTitlePhoneXpath = "//*[@id='__layout']/div/div[1]/div[2]/div/div[2]/div[3]/div[1]/div/div[3]/a";
-    String actualTitlePhoneXpath = "/html/body/div[4]/div/div/div[3]/div/div[1]/div/div/div/ul/li/div/div/div[2]/div[1]/a/p/span";
-    String actualTitleChargerXpath = "/html/body/div[4]/div/div/div[3]/div/div[1]/div/div/div/ul/li[2]/div/div/div[2]/div[1]/a/p/span";
+    String mostExpensiveItemPage = "https://allo.ua/ua/products/mobile/smartfon-google-pixel-9-pro-xl-16-1tb-obsidian-ga05910-us-ga05910-us-51559.html";
+    String expectedTitlePhoneXpath = "//*[contains(@class, 'product-card__content')]//a[@href='https://allo.ua/ua/products/mobile" +
+            "/smartfon-google-pixel-9-pro-xl-16-1tb-obsidian-ga05910-us-ga05910-us-51559.html' and @title]";
+    String actualTitlePhoneXpath ="//a[@target=\"_self\" and @href='https://allo.ua/ua/products/mobile" +
+            "/smartfon-google-pixel-9-pro-xl-16-1tb-obsidian-ga05910-us-ga05910-us-51559.html']//*[@class=\"wrap\"]";
+    String actualTitleChargerXpath = "//a[@target=\"_self\" and @href='https://allo" +
+            ".ua/ua/zarjadnye-ustrojstva/zarjadnoe-ustrojstvo-google-pixel-charger-30w.html']//*[@class=\"wrap\"]";
     String expectedChargerUrl = "https://allo.ua/ua/zarjadnye-ustrojstva/zarjadnoe-ustrojstvo-google-pixel-charger-30w.html";
 
     public SortedByPhoneNamePage(WebDriver driver) {

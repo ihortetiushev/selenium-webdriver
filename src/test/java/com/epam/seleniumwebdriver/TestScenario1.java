@@ -16,13 +16,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.time.Duration;
 
 public class TestScenario1 {
-    public static String stringExpectedTitle;
-    public static String stringActualTitle;
+
     static WebDriver driver;
 
+    public static String stringExpectedTitle;
+    public static String stringActualTitle;
+
     @AfterAll
-    public static void closeDriver() throws InterruptedException {
-        Thread.sleep(5000);
+    public static void closeDriver() {
         driver.quit();
     }
 
@@ -48,7 +49,7 @@ public class TestScenario1 {
     }
 
     @Test
-    void scenario1() throws InterruptedException {
+    void scenario1() {
         MainPage mainPage = new MainPage(driver);
         SortedByPopularityPage popularityPage = new SortedByPopularityPage(driver);
         CartPage cartPage = new CartPage(driver);
@@ -56,12 +57,12 @@ public class TestScenario1 {
         Actions actions = new Actions(driver);
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MainPage.LOCATION_BUTTON_XPATH)));
+        wait.until(ExpectedConditions.visibilityOf(mainPage.locationButton));
 
         mainPage.typeInputLocation("Київ");
         mainPage.catalogButton.click();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MainPage.LAPTOPS_PC_TABLETS_CATEGORY_XPATH)));
+        wait.until(ExpectedConditions.visibilityOf(mainPage.laptopsPcTabletsCategory));
         mainPage.laptopsPcTabletsCategory.click();
 
         mainPage.laptopsPcTabletsCategoryAppleSelector.click();
@@ -69,35 +70,28 @@ public class TestScenario1 {
         actions.moveToElement(mainPage.sortButton).perform();
         mainPage.sortByPopularityButton.click();
 
-        Thread.sleep(1000);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(SortedByPopularityPage.expectedLaptopXpath)));
+        defineExpectedElement(SortedByPopularityPage.expectedLaptopXpath);
 
-        defineExpectedElement("//*[@id=\"__layout\"]/div/div[1]/div[2]/div/div[3]/div[3]/div[1]/div//*[@title " +
-                "and @href]");
-
-        Thread.sleep(1500);
-
+        wait.until(ExpectedConditions.visibilityOf(popularityPage.sortByPopularityItem));
         popularityPage.sortByPopularityItem.click();
 
         wait.until(ExpectedConditions.urlToBe(popularityPage.expectedUrl));
 
         popularityPage.buyButton.click();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath(SortedByPopularityPage.GO_TO_CART_BUTTON_XPATH)));
-
+        wait.until(ExpectedConditions.visibilityOf(popularityPage.goToCartButton));
         popularityPage.goToCartButton.click();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[4]/div/div/div[3]/div/div[1]/div/div/div/ul/li/div/div" +
-                "/div[2]/div[1]/a/p/span")));
-
-        defineActualElement("/html/body/div[4]/div/div/div[3]/div/div[1]/div/div/div/ul/li/div/div" +
-                "/div[2]/div[1]/a/p/span");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(CartPage.actualElementXpath)));
+        defineActualElement(CartPage.actualElementXpath);
 
         assertEquals(stringExpectedTitle, stringActualTitle, "Expected element: " + stringExpectedTitle
                 + " Actual element: " + stringActualTitle);
 
+        wait.until(ExpectedConditions.elementToBeClickable(cartPage.addQuantity));
         cartPage.addQuantity.click();
-        Thread.sleep(500);
+        wait.until(ExpectedConditions.elementToBeClickable(cartPage.addQuantity));
         cartPage.addQuantity.click();
     }
 }
