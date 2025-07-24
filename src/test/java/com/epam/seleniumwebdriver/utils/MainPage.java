@@ -1,4 +1,4 @@
-package com.epam.seleniumwebdriver;
+package com.epam.seleniumwebdriver.utils;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WebDriver;
@@ -33,10 +33,15 @@ public class MainPage extends PageFactory {
     public WebElement sortButton;
     @FindBy(how = How.XPATH, using = "//ul[@class='sort-by__list']/li[@title='за популярністю']")
     public WebElement sortByPopularityButton;
-    String emptyCatalogXpath = "//*[contains(@class, 'v-catalog__empty') and contains(text(), 'Нажаль, нічого не знайдено')]";
+
+    @FindBy(how = How.XPATH, using = "//*[contains(@class, 'v-catalog__empty') and contains(text(), 'Нажаль, нічого не знайдено')]")
+    public WebElement emptyCatalogXpath;
+
     @FindBy(how = How.CLASS_NAME, using = "ct-button")
+    public
     WebElement catalogButton;
     @FindBy(how = How.ID, using = "search-form__input")
+    public
     WebElement searchBar;
 
     public MainPage(WebDriver driver) {

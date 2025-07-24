@@ -1,31 +1,24 @@
-package com.epam.seleniumwebdriver;
+package com.epam.seleniumwebdriver.testscenario;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
+import com.epam.seleniumwebdriver.utils.*;
 import java.time.Duration;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
-public class TestScenario3 {
+public class BuyNonExistentProductTestCase {
 
     static WebDriver driver;
 
     public static String stringExpectedMessage = "Нажаль, нічого не знайдено.";
     public static String stringActualMessage;
-
-    @AfterAll
-    public static void closeDriver() {
-        driver.quit();
-    }
 
     @BeforeEach
     public void createDriver() {
@@ -34,15 +27,13 @@ public class TestScenario3 {
         driver.manage().window().maximize();
     }
 
-    public void defineActualMessage(String xpath) {
-        WebElement actualMessageElement = driver.findElement(By.xpath(xpath));
-        String message = actualMessageElement.getText();
-        System.out.println("Actual Message: " + message);
-        TestScenario3.stringActualMessage = message;
+    @AfterAll
+    public static void closeDriver() {
+        driver.quit();
     }
 
     @Test
-    void scenario3() {
+    void BuyNonExistentProductNegativeTest() {
         MainPage mainPage = new MainPage(driver);
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(7));
@@ -53,9 +44,12 @@ public class TestScenario3 {
         mainPage.searchBar.sendKeys("No kia 3310");
         mainPage.searchBar.sendKeys(Keys.ENTER);
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(mainPage.emptyCatalogXpath)));
-        defineActualMessage(mainPage.emptyCatalogXpath);
-        assertEquals(stringExpectedMessage, stringActualMessage, "Expected message: " + stringExpectedMessage
-                + " Actual message: " + stringActualMessage);
+        wait.until(ExpectedConditions.visibilityOf(mainPage.emptyCatalogXpath));
+
+        stringActualMessage = mainPage.emptyCatalogXpath.getText();
+
+        assertThat(stringActualMessage)
+                .as("Text '%s' is not as expected '%s'", stringActualMessage, stringExpectedMessage)
+                .isEqualTo(stringExpectedMessage);
     }
 }

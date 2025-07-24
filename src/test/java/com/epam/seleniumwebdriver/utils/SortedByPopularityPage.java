@@ -1,4 +1,4 @@
-package com.epam.seleniumwebdriver;
+package com.epam.seleniumwebdriver.utils;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -18,6 +18,8 @@ public class SortedByPopularityPage extends PageFactory {
     public WebElement buyButton;
     @FindBy(how = How.XPATH, using = "//*[@class='related-products__button a-button a-button--outline a-button--primary']")
     public WebElement goToCartButton;
+    @FindBy(how = How.XPATH, using = "//*[contains(@class, 'product-card__content')]//a[text()='Ноутбук Apple MacBook Air 13 M1 (MGN63) Space Grey']")
+    public WebElement expectedLaptop;
 
     public SortedByPopularityPage(WebDriver driver) {
         this.driver = driver;
