@@ -4,7 +4,6 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
@@ -37,20 +36,19 @@ public class BuyProductByNameTestCase {
 
 
     @Test
-    void BuyProductByNamePositiveTest() {
+    void buyProductByNamePositiveTest() {
         MainPage mainPage = new MainPage(driver);
         SortedByPhoneNamePage sortedByNamePage = new SortedByPhoneNamePage(driver);
         CartPage cartPage = new CartPage(driver);
+        Search search = new Search();
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(7));
         Actions actions = new Actions(driver);
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MainPage.LOCATION_BUTTON_XPATH)));
 
-        mainPage.typeInputLocation("Харків");
-        mainPage.searchBar.click();
-        mainPage.searchBar.sendKeys("Pixel 9 pro");
-        mainPage.searchBar.sendKeys(Keys.ENTER);
+        mainPage.selectLocation(City.findByCityName("Харків"));
+        search.searchProduct(mainPage.searchBar, "Pixel 9 pro");
 
         wait.until(ExpectedConditions.urlToBe(sortedByNamePage.sortedByPhoneNamePageUrl));
 
@@ -76,10 +74,8 @@ public class BuyProductByNameTestCase {
                 .isEqualTo(stringExpectedTitle);
 
         cartPage.closeButton.click();
-        sortedByNamePage.searchBar.click();
 
-        sortedByNamePage.searchBar.sendKeys("Зарядний пристрій pixel 30W");
-        sortedByNamePage.searchBar.sendKeys(Keys.ENTER);
+        search.searchProduct(sortedByNamePage.searchBar, "Зарядний пристрій pixel 30W");
 
         wait.until(ExpectedConditions.visibilityOf(sortedByNamePage.sortSpace));
         actions.moveToElement(sortedByNamePage.sortSpace).perform();

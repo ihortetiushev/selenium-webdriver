@@ -1,5 +1,6 @@
 package com.epam.seleniumwebdriver.utils;
 
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -8,10 +9,8 @@ import org.openqa.selenium.support.PageFactory;
 
 public class MainPage extends PageFactory {
 
-    private final WebDriver driver;
-
     public static final String LOCATION_BUTTON_XPATH = "//div[@class='mh-loc']//button[@class='mh-button']";
-
+    private final WebDriver driver;
     @FindBy(how = How.XPATH, using = LOCATION_BUTTON_XPATH)
     public WebElement locationButton;
     @FindBy(how = How.XPATH, using = "//div[contains(@class, 'geo__cities')]//*[@data-geo-select-city='Харків']")
@@ -49,21 +48,30 @@ public class MainPage extends PageFactory {
         initElements(driver, this);
     }
 
-    public void typeInputLocation(String location) {
+    public void selectLocation(City city) {
         locationButton.click();
 
-        switch (location) {
-            case ("Харків"):
+        switch (city) {
+            case Kharkiv:
                 locationKharkiv.click();
                 break;
 
-            case ("Київ"):
+            case Kyiv:
                 locationKyiv.click();
                 break;
 
-            case ("Одеса"):
+            case Odesa:
                 locationOdesa.click();
                 break;
+            default:
+                throw new IllegalArgumentException("city " + city + " is not supported");
         }
+
+    }
+
+    public void searchProduct(String productName) {
+        searchBar.click();
+        searchBar.sendKeys(productName);
+        searchBar.sendKeys(Keys.ENTER);
     }
 }
