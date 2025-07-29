@@ -75,10 +75,7 @@ public class BuyProductByNameTestCase {
 
         cartPage.closeButton.click();
 
-        //sortedByNamePage.searchBar.click();
         search.searchProduct(sortedByNamePage.searchBar, "Зарядний пристрій pixel 30W");
-        //sortedByNamePage.searchBar.sendKeys("Зарядний пристрій pixel 30W");
-        //sortedByNamePage.searchBar.sendKeys(Keys.ENTER);
 
         wait.until(ExpectedConditions.visibilityOf(sortedByNamePage.sortSpace));
         actions.moveToElement(sortedByNamePage.sortSpace).perform();
