@@ -34,7 +34,7 @@ public class BuyTheMostPopularLaptopTestCase {
     }
 
     @Test
-    void BuyTheMostPopularLaptopPositiveTest() {
+    void buyTheMostPopularLaptopPositiveTest() {
         MainPage mainPage = new MainPage(driver);
         SortedByPopularityPage popularityPage = new SortedByPopularityPage(driver);
         CartPage cartPage = new CartPage(driver);
@@ -44,7 +44,7 @@ public class BuyTheMostPopularLaptopTestCase {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(mainPage.locationButton));
 
-        mainPage.typeInputLocation("Київ");
+        mainPage.selectLocation(City.findByCityName("Київ"));
         mainPage.catalogButton.click();
 
         wait.until(ExpectedConditions.visibilityOf(mainPage.laptopsPcTabletsCategory));

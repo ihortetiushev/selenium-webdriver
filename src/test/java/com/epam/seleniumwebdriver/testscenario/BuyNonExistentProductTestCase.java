@@ -33,13 +33,14 @@ public class BuyNonExistentProductTestCase {
     }
 
     @Test
-    void BuyNonExistentProductNegativeTest() {
+    void buyNonExistentProductNegativeTest() {
         MainPage mainPage = new MainPage(driver);
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(7));
         wait.until(ExpectedConditions.visibilityOf(mainPage.locationButton));
 
-        mainPage.typeInputLocation("Одеса");
+        mainPage.selectLocation(City.findByCityName("Одеса"));
+
         mainPage.searchBar.click();
         mainPage.searchBar.sendKeys("No kia 3310");
         mainPage.searchBar.sendKeys(Keys.ENTER);
